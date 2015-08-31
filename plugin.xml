@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+      id="com.zhxjz.map.plugin.DevIMEI"
+      version="1.0.0">
+    <name>DevIMEI</name>
+    <description>get device IMEI code</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,DevIMEI</keywords>
+
+    <js-module src="www/devIMEI.js" name="devIMEI">
+        <clobbers target="devIMEI" />
+    </js-module>
+    
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="DevIMEIPlugin" >
+                <param name="android-package" value="com.zhxjz.map.plugin.DevIMEI"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/DevIMEI.java" target-dir="src/com/zhxjz/map/plugin" />
+    </platform>
+
+   
+</plugin>
