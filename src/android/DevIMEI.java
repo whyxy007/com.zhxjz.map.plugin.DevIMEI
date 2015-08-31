@@ -1,11 +1,12 @@
-package com.zhxjz.map.plugin;
+﻿package com.zhxjz.map.plugin;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
-import android.view.Display;
-import android.view.WindowManager;
+
+import android.content.Context;
+import android.telephony.TelephonyManager;
 
 /**
  * 获取设备IMEI的插件
@@ -15,25 +16,27 @@ import android.view.WindowManager;
  */
 public class DevIMEI extends CordovaPlugin {
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+	public boolean execute(String action, JSONArray args,
+			CallbackContext callbackContext) throws JSONException {
 		try {
-			WindowManager wm = (WindowManager) this.webView.getContext().getSystemService("window");
-			Display display = wm.getDefaultDisplay();
-			
-			int screenWidth  = display.getWidth();
-			int screenHeight = display.getHeight();
 			JSONArray arr = new JSONArray();
-			arr.put(0, screenWidth);
-			arr.put(1, screenHeight);
+			Context context = this.webView.getContext();
+			if (action.equals("getIMEI")) {
+				String devIMEI = getIMEI(context);
+				arr.put(0, devIMEI);
+			}
 			callbackContext.success(arr);
-			
 			return true;
 		} catch (Exception e) {
 			callbackContext.error(e.getMessage());
 			return false;
 		}
+	}
+
+	private String getIMEI(Context context) {
+		return ((TelephonyManager) context
+				.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
 	}
 
 }
